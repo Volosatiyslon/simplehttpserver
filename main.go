@@ -26,22 +26,28 @@ func createIndex(fileList []route) (error){
 		content+=fmt.Sprintf("<p><a href=\"./%v\">%v</a></p>", f.fName, f.fName)
 	}
 	content += "</body></html>"
-	os.WriteFile("index.html", []byte(content), 0777)
+	err:=os.WriteFile("index.html", []byte(content), 0777)
+	if err != nil{
+		log.Fatalf("err during creating index: %v", err)
+	}
 	return nil
 }
 
-func filteredFileList() ([]route, bool, error){
+func filteredFileList(exept string) ([]route, bool, error){
 	fileList, err := os.ReadDir(".")
 	if err != nil{
 		return nil, false, fmt.Errorf("err during reading dir: %v", err)
 	}
-	needIndex := false
+	needIndex := true
 	routeList := make([]route, len(fileList))
 	for _,f := range fileList{
 		if f.IsDir(){
 			continue
 		}
 		if f.Name()[0]=='.'{
+			continue
+		}
+		if f.Name() == exept{
 			continue
 		}
 		if f.Name() == "index.html"{
@@ -86,15 +92,18 @@ func main(){
 	var address string
 	flag.StringVar(&address, "a", "127.0.0.1:8080", "Specify address. Default is \"127.0.0.1:8080\"")
 	flag.Parse()
-	
-	routes, indexExist, err := filteredFileList()
+	path_list := strings.Split(os.Args[0], "/")
+	exec_file := path_list[len(path_list)-1]
+	routes, indexNotExist, err := filteredFileList(exec_file)
 	if err != nil{
 		log.Fatalf("error while reading dir: %v", err)
 	}
-	if indexExist{
+	if indexNotExist{
 			log.Print("creating index.html")
 			createIndex(routes)
 		}
+	
+	log.Printf("%v", exec_file)
 	for _, f := range routes{
 		if f.fName == "" || f.fName == "index.html"{
 				continue

@@ -1,6 +1,6 @@
 ## Simple http server
 ### about
-simple app to share local files (only files) through http. Auto generated index.html file allows you just start and use
+simple app to share local files (only files) through http. Auto generated index.html file allows you just start and use. App filter out self file, any directory and hiden files (tested on linux)
 
  ### usage
  + download a binary from _executable_ folder (or download sources and compile them)
