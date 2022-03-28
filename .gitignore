@@ -10,3 +10,4 @@ __pycache__
 /venv*
 requirements.txt
 /vendor
+.build
