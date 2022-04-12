@@ -13,4 +13,4 @@ simple app to share local files (only files) through http. Auto generated index.
  ``` simplehttpserver -a 127.0.0.1:8080 ```\
  + use _u_ flag to enable /upload route handler and generate upload form index.html\
  ``` simplehttpserver -u ```\
- by default route /upload is ignored. Uploaded files will be available to download after server restart (will be fixed soon)
+ by default route /upload is ignored. 
