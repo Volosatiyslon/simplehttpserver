@@ -127,6 +127,7 @@ func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) UploadHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%+v", r)
 	if r.Method != "POST" {
 		http.Redirect(w, r, "/index.html", http.StatusMovedPermanently)
 		log.Printf("Method not allowed: %v", r.Method)
@@ -168,7 +169,8 @@ func (s *Server) UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.HandleFunc(fmt.Sprintf("/%v", newName), route.Create_handler())
-	http.Redirect(w, r, "/index.html", http.StatusMovedPermanently)
+	fmt.Fprintf(w, "File Uploaded\n")
+	// http.Redirect(w, r, "/index.html", http.StatusMovedPermanently)
 }
 
 func (s *Server) ReturnIndex() ([]byte, error) {
